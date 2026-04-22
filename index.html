@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>徐睿晨 — 跨圈层内容运营 × AI Native 创作者</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Josefin+Sans:wght@200;300;400;600&family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* ======================== RESET ======================== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #F8F4EC;
+  --bg-warm: #F5F0E6;
+  --pink: #E8A6C4;
+  --pink-deep: #D4789E;
+  --pink-soft: rgba(232,166,196,0.15);
+  --blue: #8EB9D1;
+  --blue-deep: #5A8FA8;
+  --blue-soft: rgba(142,185,209,0.12);
+  --gold: #FAD970;
+  --gold-deep: #E8C840;
+  --gold-soft: rgba(250,217,112,0.2);
+  --brown: #B8866B;
+  --green: #9EBD8E;
+  --green-soft: rgba(158,189,142,0.12);
+  --dark: #4A3F4E;
+  --text: #5A4F5E;
+  --text-mid: #7A6F7E;
+  --text-light: #A99FAE;
+  --cream: #FFFCF5;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--pink-soft); color: var(--dark); }
+
+/* ======================== LOADING SCREEN ======================== */
+.loading-screen {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 9999;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1s cubic-bezier(0.4,0,0.2,1),
+              transform 1s cubic-bezier(0.4,0,0.2,1);
+}
+
+.loading-screen.hide {
+  opacity: 0;
+  transform: scale(1.08);
+  pointer-events: none;
+}
+
+.loading-deco {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  animation: loadDecoIn 1s forwards;
+}
+
+.loading-deco-1 {
+  width: 120px; height: 120px;
+  background: var(--pink-soft);
+  top: 15%; left: 10%;
+  animation-delay: 0.2s;
+}
+
+.loading-deco-2 {
+  width: 80px; height: 80px;
+  background: var(--gold-soft);
+  top: 20%; right: 15%;
+  animation-delay: 0.4s;
+}
+
+.loading-deco-3 {
+  width: 60px; height: 60px;
+  background: var(--blue-soft);
+  bottom: 25%; left: 20%;
+  animation-delay: 0.6s;
+}
+
+@keyframes loadDecoIn {
+  to { opacity: 1; }
+}
+
+.loading-content {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.loading-wave-emoji {
+  font-size: 4.5rem;
+  display: inline-block;
+  transform-origin: 70% 70%;
+  opacity: 0;
+  animation: waveIn 0.6s 0.3s forwards, wave 0.8s 0.9s ease-in-out 3;
+}
+
+@keyframes waveIn {
+  from { opacity: 0; transform: scale(0.5) rotate(-20deg); }
+  to { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(20deg); }
+  40% { transform: rotate(-10deg); }
+  60% { transform: rotate(15deg); }
+  80% { transform: rotate(-5deg); }
+}
+
+.loading-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: var(--dark);
+  margin-top: 1rem;
+  opacity: 0;
+  transform: translateY(25px);
+  animation: fadeUp 0.8s 0.6s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+.loading-text .dot { color: var(--pink); }
+
+.loading-sub {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  color: var(--text-light);
+  margin-top: 1rem;
+  opacity: 0;
+  animation: fadeUp 0.6s 1.2s forwards;
+}
+
+.loading-bar-wrap {
+  width: 200px;
+  height: 3px;
+  background: rgba(232,166,196,0.15);
+  border-radius: 10px;
+  margin: 2.5rem auto 0;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeUp 0.4s 1.5s forwards;
+}
+
+.loading-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--pink), var(--gold));
+  border-radius: 10px;
+  width: 0%;
+  animation: loadProgress 2s 1.6s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes loadProgress {
+  to { width: 100%; }
+}
+
+/* ======================== PAGE WRAPPER ======================== */
+.page-wrapper {
+  opacity: 0;
+  transition: opacity 1.2s 0.5s ease;
+}
+
+.page-wrapper.visible { opacity: 1; }
+
+/* ======================== NAV ======================== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+nav.scrolled {
+  padding: 0.8rem 3rem;
+  background: rgba(248,244,236,0.92);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  box-shadow: 0 1px 0 rgba(232,166,196,0.15);
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--dark);
+  text-decoration: none;
+}
+
+.nav-logo .logo-dot { color: var(--pink); }
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2.5rem;
+}
+
+.nav-links a {
+  font-family: 'Josefin Sans', sans-serif;
+  text-decoration: none;
+  color: var(--text-mid);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--pink);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+.nav-links a:hover { color: var(--dark); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-burger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  z-index: 101;
+}
+
+.nav-burger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--dark);
+  margin: 5px 0;
+  transition: 0.3s;
+}
+
+/* Mobile menu */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(248,244,236,0.97);
+  backdrop-filter: blur(20px);
+  z-index: 99;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+.mobile-menu.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile-menu a {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--dark);
+  transition: color 0.3s;
+}
+
+.mobile-menu a:hover { color: var(--pink-deep); }
+
+/* ======================== HERO ======================== */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0; right: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(248,244,236,0) 0%,
+    rgba(248,244,236,0.6) 30%,
+    rgba(248,244,236,0.92) 70%,
+    rgba(248,244,236,0.97) 100%
+  );
+  z-index: 1;
+}
+
+/* ---- Stars ---- */
+.stars-container {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 12px 4px rgba(250,217,112,0.5);
+  animation: starGlow 3s ease-in-out infinite;
+}
+
+.star-1 { width: 8px; height: 8px; top: 18%; left: 35%; animation-delay: 0s; }
+.star-2 { width: 6px; height: 6px; top: 25%; left: 22%; animation-delay: 0.8s; }
+.star-3 { width: 10px; height: 10px; top: 12%; left: 42%; animation-delay: 1.5s; }
+.star-4 { width: 5px; height: 5px; top: 30%; left: 48%; animation-delay: 0.3s; }
+.star-5 { width: 7px; height: 7px; top: 22%; left: 15%; animation-delay: 2s; }
+.star-6 { width: 4px; height: 4px; top: 35%; left: 30%; animation-delay: 1.2s; }
+.star-7 { width: 6px; height: 6px; top: 15%; left: 52%; animation-delay: 0.5s; }
+.star-8 { width: 8px; height: 8px; top: 28%; left: 8%; animation-delay: 1.8s; }
+
+.star::before, .star::after {
+  content: '';
+  position: absolute;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+.star::before {
+  width: 200%;
+  height: 30%;
+  top: 35%;
+  left: -50%;
+}
+
+.star::after {
+  width: 30%;
+  height: 200%;
+  top: -50%;
+  left: 35%;
+}
+
+@keyframes starGlow {
+  0%, 100% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+/* ---- Petals ---- */
+.petal {
+  position: absolute;
+  width: 12px;
+  height: 18px;
+  background: var(--pink);
+  border-radius: 50% 50% 50% 0;
+  opacity: 0;
+  z-index: 2;
+  pointer-events: none;
+  animation: petalFall linear infinite;
+}
+
+.petal-1 { left: 15%; animation-duration: 12s; animation-delay: 0s; }
+.petal-2 { left: 25%; animation-duration: 15s; animation-delay: 2s; width: 10px; height: 14px; }
+.petal-3 { left: 35%; animation-duration: 11s; animation-delay: 4s; }
+.petal-4 { left: 45%; animation-duration: 14s; animation-delay: 1s; width: 8px; height: 12px; }
+.petal-5 { left: 55%; animation-duration: 13s; animation-delay: 3s; }
+.petal-6 { left: 20%; animation-duration: 16s; animation-delay: 5s; width: 10px; height: 15px; }
+
+@keyframes petalFall {
+  0% { top: -5%; opacity: 0; transform: rotate(0deg) translateX(0); }
+  10% { opacity: 0.6; }
+  50% { transform: rotate(180deg) translateX(40px); }
+  90% { opacity: 0.4; }
+  100% { top: 105%; opacity: 0; transform: rotate(360deg) translateX(-20px); }
+}
+
+/* ---- Hero Content ---- */
+.hero-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 5%;
+}
+
+.hero-right {
+  max-width: 440px;
+  text-align: left;
+}
+
+.hero-photo {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink-soft), var(--blue-soft));
+  border: 4px solid rgba(255,255,255,0.8);
+  box-shadow: 0 8px 32px rgba(232,166,196,0.2);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-name-cn {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: var(--dark);
+  line-height: 1.2;
+  margin-bottom: 0.3rem;
+}
+
+.hero-name-en {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-mid);
+  margin-bottom: 0.3rem;
+}
+
+.hero-school {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
+.hero-school span {
+  color: var(--blue-deep);
+  font-weight: 500;
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+}
+
+.hero-tag {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.hero-tag:nth-child(1) {
+  background: #E8A6C4;
+  color: #FFFFFF;
+}
+
+.hero-tag:nth-child(2) {
+  background: #8EB9D1;
+  color: #FFFFFF;
+}
+
+.hero-tag:nth-child(3) {
+  background: #FAD970;
+  color: #4A3F4E;
+}
+
+.hero-scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-light);
+  font-size: 0.75rem;
+  font-family: 'Josefin Sans', sans-serif;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 2rem;
+}
+
+.scroll-line {
+  width: 40px;
+  height: 1px;
+  background: var(--pink);
+  display: inline-block;
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { width: 40px; opacity: 0.5; }
+  50% { width: 60px; opacity: 1; }
+}
+
+/* ======================== SECTIONS COMMON ======================== */
+.section {
+  padding: 6rem 5%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--dark);
+  margin-bottom: 3rem;
+}
+
+.section-title .title-dot {
+  color: var(--pink);
+}
+
+/* ======================== ABOUT ======================== */
+.about-text {
+  font-size: 1rem;
+  line-height: 2;
+  color: var(--text);
+  max-width: 700px;
+}
+
+.about-text .highlight {
+  color: var(--pink-deep);
+  font-weight: 500;
+}
+
+.about-formula {
+  margin-top: 2rem;
+  padding: 1.5rem 2rem;
+  background: var(--cream);
+  border-radius: 16px;
+  border-left: 4px solid var(--pink);
+  font-size: 0.95rem;
+  color: var(--dark);
+  font-weight: 500;
+  max-width: 700px;
+}
+
+/* ======================== EXPERIENCE ======================== */
+.exp-timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.exp-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--pink), var(--blue), var(--gold));
+  border-radius: 2px;
+}
+
+.exp-card {
+  position: relative;
+  margin-bottom: 4rem;
+  padding-left: 2rem;
+}
+
+.exp-card::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 0.5rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 3px solid var(--pink);
+  background: var(--bg);
+  transform: translateX(-5px);
+}
+
+.exp-card:nth-child(2)::before {
+  border-color: var(--blue);
+}
+
+.exp-card-header {
+  margin-bottom: 1.5rem;
+}
+
+.exp-company {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.exp-role {
+  font-size: 0.9rem;
+  color: var(--pink-deep);
+  font-weight: 500;
+  margin-top: 0.2rem;
+}
+
+.exp-core {
+  font-size: 0.85rem;
+  color: var(--text-mid);
+  margin-top: 0.5rem;
+  line-height: 1.7;
+  padding: 0.8rem 1rem;
+  background: var(--pink-soft);
+  border-radius: 10px;
+}
+
+.exp-card:nth-child(2) .exp-core {
+  background: var(--blue-soft);
+}
+
+.exp-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 1.5rem 0 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.exp-section-title .emoji {
+  font-size: 1.1rem;
+}
+
+.exp-list {
+  list-style: none;
+  padding: 0;
+}
+
+.exp-list li {
+  position: relative;
+  padding-left: 1.2rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.exp-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pink);
+}
+
+.exp-card:nth-child(2) .exp-list li::before {
+  background: var(--blue);
+}
+
+.exp-list li strong {
+  color: var(--dark);
+  font-weight: 600;
+}
+
+.exp-data-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1.2rem;
+  background: linear-gradient(135deg, var(--gold-soft), rgba(250,217,112,0.35));
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold-deep);
+}
+
+/* Case Study Showcase */
+.case-showcase {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--cream);
+  border-radius: 16px;
+  border: 1px solid rgba(232,166,196,0.15);
+}
+
+.exp-card:nth-child(2) .case-showcase {
+  border-color: rgba(142,185,209,0.2);
+}
+
+.case-showcase-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-light);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.case-info {
+  margin-bottom: 1rem;
+}
+
+.case-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 0.5rem;
+}
+
+.case-reason {
+  font-size: 0.85rem;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.case-reason strong {
+  color: var(--dark);
+}
+
+.case-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.case-images img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.case-images img:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+/* ---- Work Links ---- */
+.work-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.work-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1.2rem;
+  background: linear-gradient(135deg, var(--blue), var(--blue-deep));
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+  letter-spacing: 0.03em;
+}
+
+.work-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(90,143,168,0.35);
+}
+
+.work-link .link-icon {
+  font-size: 1rem;
+}
+
+/* ======================== SKILLS ======================== */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.skill-card {
+  background: var(--cream);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(232,166,196,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.skill-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+}
+
+.skill-card-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.skill-card-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 0.8rem;
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-tag {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--pink-soft);
+  color: var(--pink-deep);
+}
+
+.skill-card:nth-child(2) .skill-tag {
+  background: var(--blue-soft);
+  color: var(--blue-deep);
+}
+
+.skill-card:nth-child(3) .skill-tag {
+  background: var(--gold-soft);
+  color: var(--gold-deep);
+}
+
+.skill-card:nth-child(4) .skill-tag {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+/* ======================== CONTACT ======================== */
+.contact-section {
+  text-align: center;
+  padding: 6rem 5%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.contact-emoji {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.contact-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--dark);
+  margin-bottom: 1rem;
+}
+
+.contact-desc {
+  color: var(--text-mid);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.contact-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 2rem;
+  background: var(--cream);
+  border-radius: 30px;
+  border: 1px solid rgba(232,166,196,0.15);
+  font-size: 0.9rem;
+  color: var(--text);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.contact-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.contact-item .item-icon {
+  font-size: 1.2rem;
+}
+
+.contact-item a {
+  color: var(--pink-deep);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* ======================== FOOTER ======================== */
+footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  border-top: 1px solid rgba(232,166,196,0.12);
+}
+
+.footer-text {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--text-light);
+  text-transform: uppercase;
+}
+
+/* ======================== IMAGE LIGHTBOX ======================== */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 2rem;
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+/* ======================== RESPONSIVE ======================== */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  nav.scrolled { padding: 0.6rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-burger { display: block; }
+  .mobile-menu { display: flex; }
+
+  .hero-content {
+    justify-content: center;
+    padding: 0 2rem;
+    padding-top: 6rem;
+  }
+
+  .hero-overlay {
+    width: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(248,244,236,0) 0%,
+      rgba(248,244,236,0.7) 40%,
+      rgba(248,244,236,0.95) 70%,
+      rgba(248,244,236,1) 100%
+    );
+  }
+
+  .hero-right {
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .hero-photo { margin: 0 auto 1.5rem; }
+  .hero-tags { justify-content: center; }
+
+  .hero-name-cn { font-size: 2.2rem; }
+  .hero-name-en { font-size: 1rem; }
+
+  .section { padding: 4rem 1.5rem; }
+  .section-title { font-size: 1.6rem; }
+
+  .exp-timeline { padding-left: 1.5rem; }
+  .exp-card { padding-left: 1.5rem; }
+
+  .case-images {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .loading-text { font-size: 2.5rem; }
+  .loading-wave-emoji { font-size: 3.5rem; }
+
+  .work-links { justify-content: center; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ======================== LOADING SCREEN ======================== -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-deco loading-deco-1"></div>
+  <div class="loading-deco loading-deco-2"></div>
+  <div class="loading-deco loading-deco-3"></div>
+  <div class="loading-content">
+    <div class="loading-wave-emoji">👋</div>
+    <div class="loading-text">Hello<span class="dot">.</span></div>
+    <div class="loading-sub">Portfolio is loading</div>
+    <div class="loading-bar-wrap">
+      <div class="loading-bar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PAGE WRAPPER ======================== -->
+<div class="page-wrapper" id="pageWrapper">
+
+<!-- ======================== NAV ======================== -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">RC<span class="logo-dot">.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-burger" id="navBurger" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#experience" onclick="closeMobileMenu()">Experience</a>
+  <a href="#skills" onclick="closeMobileMenu()">Skills</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<!-- ======================== HERO ======================== -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79755611681/a8c0/2c43/eac1/62679bec32430cdfab0b35f1c197cef6.png" alt="插画背景">
+  </div>
+  <div class="hero-overlay"></div>
+
+  <!-- Stars -->
+  <div class="stars-container">
+    <div class="star star-1"></div>
+    <div class="star star-2"></div>
+    <div class="star star-3"></div>
+    <div class="star star-4"></div>
+    <div class="star star-5"></div>
+    <div class="star star-6"></div>
+    <div class="star star-7"></div>
+    <div class="star star-8"></div>
+  </div>
+
+  <!-- Petals -->
+  <div class="petal petal-1"></div>
+  <div class="petal petal-2"></div>
+  <div class="petal petal-3"></div>
+  <div class="petal petal-4"></div>
+  <div class="petal petal-5"></div>
+  <div class="petal petal-6"></div>
+
+  <div class="hero-content">
+    <div class="hero-right">
+      <div class="hero-photo">
+        <img src="https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79756285206/3607/ee0c/86ef/cc5ac533217b482dfcb79a589caba856.png" alt="徐睿晨">
+      </div>
+      <div class="hero-name-cn">徐睿晨</div>
+      <div class="hero-name-en">Ruichen Xu</div>
+      <div class="hero-school">🎓 <span>浙江工业大学之江学院</span></div>
+      <div class="hero-tags">
+        <span class="hero-tag">内容运营</span>
+        <span class="hero-tag">新媒体运营</span>
+        <span class="hero-tag">AI 聊天内容搭建</span>
+      </div>
+      <div class="hero-scroll-hint">
+        <span class="scroll-line"></span>
+        Scroll to explore
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== ABOUT ======================== -->
+<section class="section" id="about">
+  <div class="section-label">About Me</div>
+  <div class="section-title">关于我<span class="title-dot">.</span></div>
+  <div class="about-text">
+    我是徐睿晨，拥有 <span class="highlight">2 年内容运营与 AI 内容创作经验</span>。从参与网易云音乐心遇 App 的国内下沉市场社交生态内容创作，到主导出海 AI 聊天产品 Laike 台湾市场的 <span class="highlight">0→1 内容体系搭建</span>，我擅长基于用户洞察，落地可闭环的内容策略与运营方案。
+  </div>
+  <div class="about-formula">
+    💡 我始终认为，高效的内容运营是「<strong>用户洞察 × 内容质感 × AI 能力赋能</strong>」的有机结合。
+  </div>
+</section>
+
+<!-- ======================== EXPERIENCE ======================== -->
+<section class="section" id="experience">
+  <div class="section-label">Experience</div>
+  <div class="section-title">工作经历<span class="title-dot">.</span></div>
+
+  <div class="exp-timeline">
+
+    <!-- ---- 心遇 ---- -->
+    <div class="exp-card">
+      <div class="exp-card-header">
+        <div class="exp-company">网易云音乐 · 心遇 App（国内业务）</div>
+        <div class="exp-role">AI 产品运营 / 内容运营</div>
+        <div class="exp-core">
+          <strong>核心职责：</strong>负责心遇 App 站内内容生态建设，主导业内首创的"下沉市场 AI 虚拟伴侣"项目从 0 到 1 的落地与持续调优。
+        </div>
+      </div>
+
+      <div class="exp-section-title"><span class="emoji">🤖</span> AI 虚拟伴侣内容搭建</div>
+      <ul class="exp-list">
+        <li><strong>痛点解决与生态优化：</strong>针对平台真人女性用户资源不足的痛点，推进女性 AI 虚拟人项目。成功将大量低净值男性用户的社交需求引流至 AI 承接，有效优化了平台的社交生态成本与匹配效率。</li>
+        <li><strong>角色矩阵孵化与裂变：</strong>精准洞察下沉市场男性用户的情感陪伴需求，从 0 到 1 策划并搭建首批 <strong>16 个差异化女性 AI 虚拟人</strong>（涵盖人设背景、交互逻辑、对话风格、生活照）。后续通过数据反馈建立标准化 SOP，将虚拟人矩阵裂变至 <strong>200+</strong> 个。</li>
+        <li><strong>模型微调与效果迭代：</strong>沉淀高质量的互动语料库，深度参与并协助自研大语言模型的训练与调优，使 AI 回复更贴合目标人群的语境与喜好。</li>
+      </ul>
+      <div class="exp-data-badge">📊 AI 角色每日人均交互消息数稳定 90+ 条，行业领先</div>
+
+      <div class="exp-section-title"><span class="emoji">🎯</span> 其他内容与活动运营</div>
+      <ul class="exp-list">
+        <li>负责站内热门话题矩阵策划与内容调性维护，提升 UGC 产出率与社区活跃度。</li>
+        <li>策划并落地多场线上裂变拉新活动及线下品牌公关活动。</li>
+      </ul>
+
+      <!-- Case Study -->
+      <div class="case-showcase">
+        <div class="case-showcase-title">📎 案例展示 — 热门人设分析</div>
+        <div class="case-info">
+          <div class="case-name">「美少女护士」人设 🏥</div>
+          <div class="case-reason">
+            <strong>① 精准匹配下沉用户审美与偏好：</strong>人设的护士职业、朴素真诚的标签，完美贴合下沉用户对"温柔、顾家、接地气"的伴侣想象，没有距离感，极易产生亲近感。<br><br>
+            <strong>② 专属语料支撑强互动：</strong>提前为角色搭建了适配"大哥"用户的对话语料库，内容既懂用户的情绪需求，又能自然接住话题，让用户感受到被理解和被回应，大幅提升了对话粘性。
+          </div>
+        </div>
+        <div class="case-images">
+          <img src="https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79755914485/8a3b/de60/1e55/4f73f80a9b1f238971eaee812e462836.png" alt="虚拟人集合页" onclick="openLightbox(this.src)">
+          <img src="https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79755911681/91d8/6b58/7bd8/bbd98d3e5fca413e7c48154056affcf5.png" alt="人物界面" onclick="openLightbox(this.src)">
+          <img src="https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79755917815/fb2e/c92a/c0ef/d96f01729e7817e5c8ea80fa469ed234.png" alt="聊天界面" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+    </div>
+
+    <!-- ---- Laike ---- -->
+    <div class="exp-card">
+      <div class="exp-card-header">
+        <div class="exp-company">Laike App（出海业务 · 台湾地区）</div>
+        <div class="exp-role">海外 AI 内容运营 / AI 智能体策划</div>
+        <div class="exp-core">
+          <strong>核心职责：</strong>负责全新出海社交产品"AI 聊天 + 玄学"的海外区域（台湾）内容从 0 到 1 筹备、人设调优及社媒投放增长。
+        </div>
+      </div>
+
+      <div class="exp-section-title"><span class="emoji">💜</span> 女性向 AI 角色创作与运维（0→1）</div>
+      <ul class="exp-list">
+        <li><strong>垂直圈层精准打透：</strong>针对台湾地区女性向交互（梦女/乙女）群体，独立完成 <strong>80+ 高质量原创 AI 角色</strong>的人设撰写（包括世界观、身世背景、性格标签、开场白及核心交互 Prompt）。</li>
+        <li><strong>长效维稳与优化（1→10）：</strong>通过监控关键留存数据与用户反馈，持续迭代核心 Prompt 与对话逻辑，优化 AI 的上下文记忆与情感反馈机制。实现 AI 角色每日人均交互消息数突破 <strong>70+ 条</strong>。</li>
+      </ul>
+      <div class="exp-data-badge">📊 AI 角色每日人均交互消息数突破 70+ 条</div>
+
+      <div class="exp-section-title"><span class="emoji">⚙️</span> 生产力工具自研</div>
+      <ul class="exp-list">
+        <li>为解决人设批量生产的效率瓶颈，独立编写"人设裂变器网页"。通过自动化 Prompt 组装，将竞品语料一键转化为符合产品需求的文案内容，使团队单日人设产出效率提升 <strong>50%</strong>。</li>
+      </ul>
+
+      <div class="exp-section-title"><span class="emoji">📢</span> 买量素材创作与社媒拉新</div>
+      <ul class="exp-list">
+        <li>协助市场进行海外社媒的拉新素材策划。基于目标受众的标签，创作强互动的广告视频脚本与文案。</li>
+        <li>投放素材在 YouTube 平台<strong>单支播放量突破 10000+</strong>，位于买量素材首位。</li>
+      </ul>
+
+      <!-- Work Links -->
+      <div class="work-links">
+        <a href="https://pan.baidu.com/s/1zfeEgWuXDfAjWUmostkI3A?pwd=Yfp3" target="_blank" rel="noopener" class="work-link">
+          <span class="link-icon">🎬</span> 买量素材作品 ①
+        </a>
+        <a href="https://pan.baidu.com/s/1ev9bToWgRZ_gY1h-6bg47g?pwd=Ymc6" target="_blank" rel="noopener" class="work-link">
+          <span class="link-icon">🎬</span> 买量素材作品 ②
+        </a>
+      </div>
+
+      <!-- Case Study -->
+      <div class="case-showcase">
+        <div class="case-showcase-title">📎 案例展示 — 热门人设分析</div>
+        <div class="case-info">
+          <div class="case-name">「宋时衍 · 反差大学讲师」人设 🎓</div>
+          <div class="case-reason">
+            <strong>① 精准戳中台湾女性用户偏好：</strong>「斯文败类」「师生恋」「反差感」的设定，完美契合了台湾用户对抓马剧情、禁忌感和反差魅力的偏好，自带话题张力和情感张力。<br><br>
+            <strong>② 循序渐进的剧情设计：</strong>人设从开场就自带场景和冲突（课堂撞见用户），后续剧情推进节奏清晰，既能快速让用户代入角色关系，又能通过逐步解锁反差感和剧情细节，持续激发用户的探索欲和互动意愿。
+          </div>
+        </div>
+        <div class="case-images">
+          <img src="https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79755914827/2bd8/2606/28b6/1072acf5988592e29301e6564fa096b4.png" alt="Laike产品界面1" onclick="openLightbox(this.src)">
+          <img src="https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79755910711/b4f7/c5d3/e6ee/267a228fa6d9b2f8b578f815ba953ffa.png" alt="Laike产品界面2" onclick="openLightbox(this.src)">
+          <img src="https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/79755908720/388d/3d1e/5f66/f81be4dcde438008acb3b8b4176c7943.png" alt="宋时衍人物界面" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======================== SKILLS ======================== -->
+<section class="section" id="skills">
+  <div class="section-label">Skills</div>
+  <div class="section-title">技能树<span class="title-dot">.</span></div>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-icon">✍️</div>
+      <div class="skill-card-title">内容运营</div>
+      <div class="skill-tags">
+        <span class="skill-tag">用户洞察</span>
+        <span class="skill-tag">人设策划</span>
+        <span class="skill-tag">UGC 运营</span>
+        <span class="skill-tag">活动策划</span>
+        <span class="skill-tag">社区运营</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-icon">🤖</div>
+      <div class="skill-card-title">AI 内容创作</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Prompt Engineering</span>
+        <span class="skill-tag">AI 角色设计</span>
+        <span class="skill-tag">语料库搭建</span>
+        <span class="skill-tag">LLM 微调协作</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-icon">📊</div>
+      <div class="skill-card-title">数据与工具</div>
+      <div class="skill-tags">
+        <span class="skill-tag">数据分析</span>
+        <span class="skill-tag">A/B 测试</span>
+        <span class="skill-tag">HTML / CSS / JS</span>
+        <span class="skill-tag">自动化工具开发</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-icon">🎨</div>
+      <div class="skill-card-title">创意与制作</div>
+      <div class="skill-tags">
+        <span class="skill-tag">视频剪辑</span>
+        <span class="skill-tag">Photoshop</span>
+        <span class="skill-tag">H5 制作</span>
+        <span class="skill-tag">摄影</span>
+        <span class="skill-tag">社媒投放</span>
+        <span class="skill-tag">文案撰写</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== CONTACT ======================== -->
+<section class="contact-section" id="contact">
+  <div class="contact-emoji">💌</div>
+  <div class="contact-title">与我联系<span class="title-dot" style="color:var(--pink)">.</span></div>
+  <div class="contact-desc">如果你对我的经历感兴趣，期待与你进一步交流！</div>
+  <div class="contact-items">
+    <div class="contact-item">
+      <span class="item-icon">📱</span>
+      <span>电话 / 微信同号：<strong>15924337622</strong></span>
+    </div>
+    <div class="contact-item">
+      <span class="item-icon">📧</span>
+      <span>邮箱：<a href="mailto:1471290958@qq.com">1471290958@qq.com</a></span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== FOOTER ======================== -->
+<footer>
+  <div class="footer-text">© 2024 Ruichen Xu · Built with 💗 & Code</div>
+</footer>
+
+</div><!-- end page-wrapper -->
+
+<!-- ======================== LIGHTBOX ======================== -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="预览">
+</div>
+
+<!-- ======================== SCRIPTS ======================== -->
+<script>
+// Loading Screen
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loadingScreen').classList.add('hide');
+    document.getElementById('pageWrapper').classList.add('visible');
+  }, 3800);
+});
+
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  if (window.scrollY > 60) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+// Mobile menu
+const burger = document.getElementById('navBurger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+burger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('active');
+});
+
+function closeMobileMenu() {
+  mobileMenu.classList.remove('active');
+}
+
+// Lightbox
+function openLightbox(src) {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  img.src = src;
+  lb.classList.add('active');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+}
+
+// Close lightbox with Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+});
+</script>
+
+</body>
+</html>
