@@ -712,17 +712,19 @@ nav.scrolled {
   font-weight: 600;
 }
 
+/* 改动2：数据徽章样式 —— 深色底 + 白色文字，更显眼 */
 .exp-data-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
   margin-top: 1rem;
-  padding: 0.5rem 1.2rem;
-  background: linear-gradient(135deg, var(--gold-soft), rgba(250,217,112,0.35));
+  padding: 0.6rem 1.4rem;
+  background: linear-gradient(135deg, #E8C840, #D4A828);
   border-radius: 20px;
   font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--gold-deep);
+  font-weight: 700;
+  color: #FFFFFF;
+  box-shadow: 0 3px 12px rgba(212,168,40,0.3);
 }
 
 /* Case Study Showcase */
@@ -877,11 +879,6 @@ nav.scrolled {
 .skill-card:nth-child(3) .skill-tag {
   background: var(--gold-soft);
   color: var(--gold-deep);
-}
-
-.skill-card:nth-child(4) .skill-tag {
-  background: var(--green-soft);
-  color: var(--green);
 }
 
 /* ======================== CONTACT ======================== */
@@ -1121,7 +1118,8 @@ footer {
       </div>
       <div class="hero-name-cn">徐睿晨</div>
       <div class="hero-name-en">Ruichen Xu</div>
-      <div class="hero-school">🎓 <span>浙江工业大学之江学院</span></div>
+      <!-- 改动1：补充广告学专业 -->
+      <div class="hero-school">🎓 <span>浙江工业大学之江学院 · 广告学</span></div>
       <div class="hero-tags">
         <span class="hero-tag">内容运营</span>
         <span class="hero-tag">新媒体运营</span>
@@ -1158,7 +1156,8 @@ footer {
     <div class="exp-card">
       <div class="exp-card-header">
         <div class="exp-company">网易云音乐 · 心遇 App（国内业务）</div>
-        <div class="exp-role">AI 产品运营 / 内容运营</div>
+        <!-- 改动3：去掉"产品"，只保留内容运营 -->
+        <div class="exp-role">内容运营</div>
         <div class="exp-core">
           <strong>核心职责：</strong>负责心遇 App 站内内容生态建设，主导业内首创的"下沉市场 AI 虚拟伴侣"项目从 0 到 1 的落地与持续调优。
         </div>
@@ -1241,7 +1240,8 @@ footer {
           <div class="case-name">「宋时衍 · 反差大学讲师」人设 🎓</div>
           <div class="case-reason">
             <strong>① 精准戳中台湾女性用户偏好：</strong>「斯文败类」「师生恋」「反差感」的设定，完美契合了台湾用户对抓马剧情、禁忌感和反差魅力的偏好，自带话题张力和情感张力。<br><br>
-            <strong>② 循序渐进的剧情设计：</strong>人设从开场就自带场景和冲突（课堂撞见用户），后续剧情推进节奏清晰，既能快速让用户代入角色关系，又能通过逐步解锁反差感和剧情细节，持续激发用户的探索欲和互动意愿。
+            <!-- 改动4：课堂相遇 → 网恋掉马 -->
+            <strong>② 循序渐进的剧情设计：</strong>人设从开场就自带场景和冲突（网恋掉马，发现对方竟是自己的大学讲师），后续剧情推进节奏清晰，既能快速让用户代入角色关系，又能通过逐步解锁反差感和剧情细节，持续激发用户的探索欲和互动意愿。
           </div>
         </div>
         <div class="case-images">
@@ -1260,6 +1260,7 @@ footer {
   <div class="section-label">Skills</div>
   <div class="section-title">技能树<span class="title-dot">.</span></div>
 
+  <!-- 改动5：技能栏调整 —— 3栏布局 -->
   <div class="skills-grid">
     <div class="skill-card">
       <div class="skill-card-icon">✍️</div>
@@ -1270,6 +1271,7 @@ footer {
         <span class="skill-tag">UGC 运营</span>
         <span class="skill-tag">活动策划</span>
         <span class="skill-tag">社区运营</span>
+        <span class="skill-tag">新媒体运营（微信公众号、Threads）</span>
       </div>
     </div>
 
@@ -1279,18 +1281,8 @@ footer {
       <div class="skill-tags">
         <span class="skill-tag">Prompt Engineering</span>
         <span class="skill-tag">AI 角色设计</span>
-        <span class="skill-tag">语料库搭建</span>
+        <span class="skill-tag">语料训练</span>
         <span class="skill-tag">LLM 微调协作</span>
-      </div>
-    </div>
-
-    <div class="skill-card">
-      <div class="skill-card-icon">📊</div>
-      <div class="skill-card-title">数据与工具</div>
-      <div class="skill-tags">
-        <span class="skill-tag">数据分析</span>
-        <span class="skill-tag">A/B 测试</span>
-        <span class="skill-tag">HTML / CSS / JS</span>
         <span class="skill-tag">自动化工具开发</span>
       </div>
     </div>
@@ -1303,7 +1295,6 @@ footer {
         <span class="skill-tag">Photoshop</span>
         <span class="skill-tag">H5 制作</span>
         <span class="skill-tag">摄影</span>
-        <span class="skill-tag">社媒投放</span>
         <span class="skill-tag">文案撰写</span>
       </div>
     </div>
